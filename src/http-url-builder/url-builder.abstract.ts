@@ -1,4 +1,4 @@
-export abstract class AbstractUrlBuilder {
+export abstract class AbstractUrlBuilder<T> {
   #url: URL;
 
   constructor(baseUrl: string, path: string = '') {
@@ -6,6 +6,8 @@ export abstract class AbstractUrlBuilder {
   }
 
   protected abstract create(baseUrl: string, path: string): this;
+
+  protected abstract build(): T;
 
   addPath(path: string): this {
     return this.create(this.toString(), path);
