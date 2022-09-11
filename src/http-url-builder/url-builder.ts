@@ -1,8 +1,8 @@
 import { AbstractUrlBuilder } from './url-builder.abstract';
 
 export class UrlBuilder extends AbstractUrlBuilder<URL> {
-  static create(baseUrl: string): UrlBuilder {
-    return new UrlBuilder(baseUrl);
+  static create(baseUrl: string, path?: string): UrlBuilder {
+    return new UrlBuilder(baseUrl, path);
   }
 
   constructor(baseUrl: string, path: string = '') {
@@ -10,7 +10,7 @@ export class UrlBuilder extends AbstractUrlBuilder<URL> {
   }
 
   protected create(baseUrl: string, path: string): this {
-    return UrlBuilder.create(`${baseUrl}${path}`) as this;
+    return UrlBuilder.create(baseUrl, path) as this;
   }
 
   protected build(): URL {
