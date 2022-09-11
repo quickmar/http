@@ -2,7 +2,7 @@ import { AbstractUrlBuilder } from './url-builder.abstract';
 
 export class UrlBuilder extends AbstractUrlBuilder<URL> {
   static create(baseUrl: string, path?: string): UrlBuilder {
-    return new UrlBuilder(baseUrl, path);
+    return new this(baseUrl, path);
   }
 
   constructor(baseUrl: string, path: string = '') {
@@ -14,6 +14,6 @@ export class UrlBuilder extends AbstractUrlBuilder<URL> {
   }
 
   public build(): URL {
-    return new URL('', this.toString());
+    return new URL('', super.toString());
   }
 }

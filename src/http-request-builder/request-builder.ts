@@ -7,7 +7,7 @@ export class RequestBuilder extends AbstractUrlBuilder<Request> {
     path?: string,
     init?: RequestInit
   ): RequestBuilder {
-    const builder = new RequestBuilder(baseUrl, path);
+    const builder = new this(baseUrl, path);
     intRequestBuilder(builder, init);
     return builder;
   }

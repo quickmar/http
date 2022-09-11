@@ -1,7 +1,4 @@
-// Import stylesheets
 import { Http } from './src/http';
-import { UrlBuilder } from './src/http-url-builder/url-builder';
-import './style.css';
 
 // Write TypeScript code!
 const appDiv: HTMLElement = document.getElementById('app');
