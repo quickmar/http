@@ -93,7 +93,7 @@ export class RequestBuilder extends AbstractUrlBuilder<Request> {
     return fetch(this.build());
   }
 
-  protected create(baseUrl: string, path: string): this {
+  protected clone(baseUrl: string, path: string): this {
     return RequestBuilder.create(baseUrl, path, this.#requestInit) as this;
   }
 

@@ -9,7 +9,7 @@ export class UrlBuilder extends AbstractUrlBuilder<URL> {
     super(baseUrl, path);
   }
 
-  protected create(baseUrl: string, path: string): this {
+  protected clone(baseUrl: string, path: string): this {
     return UrlBuilder.create(baseUrl, path) as this;
   }
 
