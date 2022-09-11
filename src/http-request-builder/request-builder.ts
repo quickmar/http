@@ -89,6 +89,10 @@ export class RequestBuilder extends AbstractUrlBuilder<Request> {
     return this;
   }
 
+  fetch(): Promise<Response> {
+    return fetch(this.build());
+  }
+
   protected create(baseUrl: string, path: string): this {
     return RequestBuilder.create(baseUrl, path, this.#requestInit) as this;
   }
