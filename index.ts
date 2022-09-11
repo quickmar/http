@@ -6,9 +6,11 @@ import './style.css';
 // Write TypeScript code!
 const appDiv: HTMLElement = document.getElementById('app');
 appDiv.innerHTML = `<h1>TypeScript Starter</h1>`;
+console.clear();
 
-const urlBuilder = UrlBuilder.create('http://www.example.com');
-console.log('1', urlBuilder.toString());
+const client = Http.newClient('http://www.example.com');
+const urlBuilder = client.requestBuilder();
+console.log('1', urlBuilder.build());
 
 const path = urlBuilder.addPath('dog');
 console.log('2', path.toString());

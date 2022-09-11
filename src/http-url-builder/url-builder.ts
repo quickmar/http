@@ -13,7 +13,7 @@ export class UrlBuilder extends AbstractUrlBuilder<URL> {
     return UrlBuilder.create(baseUrl, path) as this;
   }
 
-  protected build(): URL {
+  public build(): URL {
     return new URL('', this.toString());
   }
 }

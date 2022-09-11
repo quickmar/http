@@ -7,7 +7,7 @@ export abstract class AbstractUrlBuilder<T> {
 
   protected abstract create(baseUrl: string, path: string): this;
 
-  protected abstract build(): T;
+  public abstract build(): T;
 
   addPath(path: string): this {
     return this.create(this.toString(), path);

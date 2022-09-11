@@ -93,7 +93,7 @@ export class RequestBuilder extends AbstractUrlBuilder<Request> {
     return RequestBuilder.create(baseUrl, path, this.#requestInit) as this;
   }
 
-  protected build(): Request {
+  public build(): Request {
     return new Request(super.toString(), this.#requestInit);
   }
 }
