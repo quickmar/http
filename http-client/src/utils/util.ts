@@ -1,4 +1,4 @@
-import { RequestBuilder } from '../http-request-builder/request-builder';
+import { RequestBuilder } from '../request-builder/request-builder';
 
 export function initHeaders(requestInit: RequestInit): Headers {
   if (!requestInit.headers) {

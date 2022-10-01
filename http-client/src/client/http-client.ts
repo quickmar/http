@@ -1,6 +1,6 @@
-import { CacheRequestBuilder } from '../http-request-builder/cache-request-builder';
-import { RequestBuilder } from '../http-request-builder/request-builder';
-import { UrlBuilder } from '../http-url-builder/url-builder';
+import { CacheRequestBuilder } from '../request-builder/cache-request-builder';
+import { RequestBuilder } from '../request-builder/request-builder';
+import { UrlBuilder } from '../url-builder/url-builder';
 
 export abstract class HttpClient {
   #baseUrl: URL;

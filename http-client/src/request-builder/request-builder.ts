@@ -1,4 +1,4 @@
-import { AbstractUrlBuilder } from '../http-url-builder/url-builder.abstract';
+import { AbstractUrlBuilder } from '../url-builder/url-builder.abstract';
 import { initHeaders, intRequestBuilder } from '../utils/util';
 
 export class RequestBuilder extends AbstractUrlBuilder<Request> {
