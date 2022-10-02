@@ -1,39 +1,53 @@
-import { CacheRequestBuilder } from '../request-builder/cache-request-builder';
-import { RequestBuilder } from '../request-builder/request-builder';
-import { UrlBuilder } from '../url-builder/url-builder';
+import { RequestBuilder } from "../request-builder/request-builder";
 
-export abstract class HttpClient {
-  #baseUrl: URL;
+export abstract class HttpClient<T extends RequestBuilder> {
+  #baseUrl: T;
+  #paths: Map<string, () => T> = new Map();
 
-  constructor(baseUrl: string) {
-    this.#baseUrl = new URL('', baseUrl);
+  constructor(baseUrl: T) {
+    this.#baseUrl = baseUrl; 
   }
 
-  public abstract URLBuilder(): UrlBuilder;
+  public registerPath(path: string, builderFn?: (baseBuilder:T) => T): void {
+    const httpClientBuilder = this.#baseUrl.clone(path);
+    if (builderFn) {
+      const userBuilder = builderFn(httpClientBuilder)
+      if (httpClientBuilder !== userBuilder) {
+        throw new ReferenceError('Can not register path. Your builder is not the same as given baseBuilder.')
+      }
+      const copy = userBuilder.clone()
+      this.#paths.set(path, () => copy.clone())
+      return;
+    }
+    this.#paths.set(path, () => httpClientBuilder.clone())
+  }
 
-  public abstract requestBuilder(): RequestBuilder;
+  public  getBuilder(path: string): T {
+    const supplierFn = this.#paths.get(path);
+    if (supplierFn) return supplierFn();
+    throw new Error(`Path "${path}" could not be found!`);
+  }
 
-  public abstract cacheRequestBuilder(): CacheRequestBuilder;
+  public getRequest(path: string): Request {
+    return this.getBuilder(path).build()
+  }
+  
+  public fetch(path: string, body?: BodyInit): Promise<Response> {
+    if (body) return this.getBuilder(path).addBody(body).fetch();
+    return this.getBuilder(path).fetch();
+  }
 
   get url(): string {
     return this.#baseUrl.toString();
   }
 }
 
-export class HttpClientImpl extends HttpClient {
-  constructor(baseUrl: string) {
-    super(baseUrl);
-  }
-
-  public URLBuilder(): UrlBuilder {
-    return UrlBuilder.create(this.url);
-  }
-
-  public requestBuilder(): RequestBuilder {
-    return RequestBuilder.create(this.url);
-  }
-
-  public cacheRequestBuilder(): CacheRequestBuilder {
-    return CacheRequestBuilder.create(this.url);
+export class HttpClientBase extends HttpClient<RequestBuilder> {
+  constructor(baseUrl: RequestBuilder | string) {
+    if (baseUrl instanceof RequestBuilder) {
+      super(baseUrl);
+    } else {
+      super(RequestBuilder.create(baseUrl))
+    }
   }
 }

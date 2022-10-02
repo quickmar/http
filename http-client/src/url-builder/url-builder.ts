@@ -5,12 +5,12 @@ export class UrlBuilder extends AbstractUrlBuilder<URL> {
     return new this(baseUrl, path);
   }
 
-  constructor(baseUrl: string, path: string = '') {
+  constructor(baseUrl: string, path = '') {
     super(baseUrl, path);
   }
 
-  protected clone(baseUrl: string, path: string): this {
-    return UrlBuilder.create(baseUrl, path) as this;
+  public clone(path?: string): this {
+    return UrlBuilder.create(super.toString(), path) as this;
   }
 
   public build(): URL {

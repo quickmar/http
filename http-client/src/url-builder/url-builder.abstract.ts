@@ -1,16 +1,16 @@
 export abstract class AbstractUrlBuilder<T> {
   #url: URL;
 
-  constructor(baseUrl: string, path: string = '') {
+  constructor(baseUrl: string, path = '') {
     this.#url = new URL(path, baseUrl);
   }
 
-  protected abstract clone(baseUrl: string, path: string): this;
+  public abstract clone(path?:string): this;
 
   public abstract build(): T;
 
   addPath(path: string): this {
-    return this.clone(this.toString(), path);
+    return this.clone(path);
   }
 
   addSearchParam(name: string, value: string): this {
