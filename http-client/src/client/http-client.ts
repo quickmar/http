@@ -2,14 +2,17 @@ import { RequestBuilder } from "../request-builder/request-builder";
 
 export abstract class HttpClient<T extends RequestBuilder> {
   #baseUrl: T;
+  #baseSearchParam: URLSearchParams;
   #paths: Map<string, () => T> = new Map();
 
   constructor(baseUrl: T) {
     this.#baseUrl = baseUrl; 
+    this.#baseSearchParam = new URL('', this.#baseUrl.toString()).searchParams;
   }
 
   public registerPath(path: string, builderFn?: (baseBuilder:T) => T): void {
     const httpClientBuilder = this.#baseUrl.clone(path);
+    this.#baseSearchParam.forEach((value, key) => httpClientBuilder.addSearchParam(key, value))
     if (builderFn) {
       const userBuilder = builderFn(httpClientBuilder)
       if (httpClientBuilder !== userBuilder) {
