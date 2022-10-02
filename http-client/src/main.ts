@@ -5,3 +5,5 @@ export class Http {
         return new HttpClientImpl(baseUrl);
     }
 }
+
+console.dir(Http.createClient('http://localhost:5173/').URLBuilder().toString());
