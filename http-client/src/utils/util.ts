@@ -1,4 +1,4 @@
-import { RequestBuilder } from '../request-builder/request-builder';
+import { RequestBuilder } from "../request-builder/request-builder";
 
 export function initHeaders(requestInit: RequestInit): Headers {
   if (!requestInit.headers) {
@@ -19,16 +19,37 @@ export function intRequestBuilder(
   if (init.headers instanceof Array) {
     init.headers.forEach(([key, value]) => builder.addHeader(key, value));
   }
-  builder
-    .addBody(init.body)
-    .addCache(init.cache)
-    .addCredentials(init.credentials)
-    .addIntegrity(init.integrity)
-    .addKeepalive(init.keepalive)
-    .addMethod(init.method)
-    .addMode(init.mode)
-    .addRedirect(init.redirect)
-    .addReferrer(init.referrer)
-    .addReferrerPolicy(init.referrerPolicy)
-    .addSignal(init.signal);
+  if (init.body) {
+    builder.addBody(init.body);
+  }
+  if (init.cache) {
+    builder.addCache(init.cache);
+  }
+  if (init.credentials) {
+    builder.addCredentials(init.credentials);
+  }
+  if (init.integrity) {
+    builder.addIntegrity(init.integrity);
+  }
+  if (init.keepalive) {
+    builder.addKeepalive(init.keepalive);
+  }
+  if (init.method) {
+    builder.addMethod(init.method);
+  }
+  if (init.mode) {
+    builder.addMode(init.mode);
+  }
+  if (init.redirect) {
+    builder.addRedirect(init.redirect);
+  }
+  if (init.referrer) {
+    builder.addReferrer(init.referrer);
+  }
+  if (init.referrerPolicy) {
+    builder.addReferrerPolicy(init.referrerPolicy);
+  }
+  if (init.signal) {
+    builder.addSignal(init.signal);
+  }
 }

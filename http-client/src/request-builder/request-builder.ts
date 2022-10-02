@@ -1,5 +1,5 @@
-import { AbstractUrlBuilder } from '../url-builder/url-builder.abstract';
-import { initHeaders, intRequestBuilder } from '../utils/util';
+import { AbstractUrlBuilder } from "../url-builder/url-builder.abstract";
+import { initHeaders, intRequestBuilder } from "../utils/util";
 
 export class RequestBuilder extends AbstractUrlBuilder<Request> {
   static create(
@@ -8,6 +8,7 @@ export class RequestBuilder extends AbstractUrlBuilder<Request> {
     init?: RequestInit
   ): RequestBuilder {
     const builder = new this(baseUrl, path);
+    if (!init) return builder;
     intRequestBuilder(builder, init);
     return builder;
   }
