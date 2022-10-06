@@ -20,15 +20,15 @@ export class HttpClient extends AbstractHttpClient<RequestBuilder> {
     return this.perform(path, "PUT", { body, ...init });
   }
 
-  public patch(): Promise<Response> {
-    throw new Error("Method not implemented.");
+  public patch(path: string, body?: BodyData, init?: Init): Promise<Response> {
+    return this.perform(path, "PATCH", { body, ...init });
   }
 
-  public delete(): Promise<Response> {
-    throw new Error("Method not implemented.");
+  public delete(path: string, body?: BodyData, init?: Init): Promise<Response> {
+    return this.perform(path, "DELETE", { body, ...init });
   }
 
-  public head(): Promise<Response> {
-    throw new Error("Method not implemented.");
+  public head(path: string, body?: BodyData, init?: Init): Promise<Response> {
+    return this.perform(path, "HEAD", { body, ...init });
   }
 }
