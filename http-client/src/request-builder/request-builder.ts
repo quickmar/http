@@ -105,4 +105,8 @@ export class RequestBuilder extends AbstractUrlBuilder<Request> {
   public build(): Request {
     return new Request(super.toString(), this.#requestInit);
   }
+
+  public get URL(): URL {
+    return new URL("", super.toString());
+  }
 }

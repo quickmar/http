@@ -23,6 +23,12 @@ export abstract class AbstractUrlBuilder<T> {
     return this;
   }
 
+  updateURLVariable(variable: string, value: string): this {
+    if (!this.#url.pathname && !this.#url.pathname.includes(variable)) return this;
+    this.#url = new URL(this.#url.pathname.replace(variable, value), this.#url.origin);
+    return this;
+  }
+
   toString(): string {
     return this.#url.toString();
   }

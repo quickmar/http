@@ -1,10 +1,12 @@
 import { RequestBuilder } from "../request-builder/request-builder";
-import { BodyData, Init } from "../utils/request-int";
+import { BodyData, Init } from "../utils/types";
 import { intRequestBuilder } from "../utils/util";
+import { DefaultTransformer } from "./path-variable/default-transformer";
 import { HttpClientBaseRegistry } from "./registry/http-client-base-registry";
 
 export abstract class AbstractHttpClient<T extends RequestBuilder> {
   #registry: HttpClientBaseRegistry<T>;
+  #pathsTransformer: DefaultTransformer;
 
   public get url(): string {
     return this.#registry.url;
@@ -12,6 +14,7 @@ export abstract class AbstractHttpClient<T extends RequestBuilder> {
 
   constructor(registry: HttpClientBaseRegistry<T>) {
     this.#registry = registry;
+    this.#pathsTransformer = new DefaultTransformer();
   }
 
   public abstract delete(
@@ -51,7 +54,13 @@ export abstract class AbstractHttpClient<T extends RequestBuilder> {
     method: string,
     init?: Init
   ): Promise<Response> {
-    const builder = this.#registry.getBuilder(path);
+    const pathAndEntries = this.#pathsTransformer.transform(path);
+    const builder = this.#registry.getBuilder(pathAndEntries.path);
+
+    pathAndEntries.entries.forEach(([variable, value]) => {
+      builder.updateURLVariable(variable, value);
+    });
+
     builder.addMethod(method);
     if (init) {
       intRequestBuilder(builder, init);

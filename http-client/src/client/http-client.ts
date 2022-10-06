@@ -1,5 +1,5 @@
 import { RequestBuilder } from "../request-builder/request-builder";
-import { BodyData, Init } from "../utils/request-int";
+import { BodyData, Init } from "../utils/types";
 import { AbstractHttpClient } from "./http-client.abstract";
 import { HttpClientBaseRegistry } from "./registry/http-client-base-registry";
 

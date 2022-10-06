@@ -16,14 +16,19 @@ export class Http {
     return new HttpClientRegistry(baseUrl);
   }
 }
+
 const registry = Http.createHttpRegistry("http://localhost:5173/");
 
-console.dir(registry.url);
 registry.registerPath("test");
 console.dir(registry.getBuilder("test").toString());
+
 registry.registerPath("test2", (b) =>
   b.addDistinctSearchParam("test2", "param")
 );
 console.dir(registry.getBuilder("test2").toString());
 
-Http.createClient(registry).get("test").then(console.log).catch(console.log);
+registry.registerPath("test3/{{param}}/{{param2}}");
+console.dir(registry.getBuilder("test3/{{param}}/{{param2}}").toString());
+
+
+Http.createClient(registry).get("test3/{{param=moja}}/{{param2=proba}}").then(console.log).catch(console.log);
