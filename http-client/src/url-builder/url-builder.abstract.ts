@@ -1,11 +1,11 @@
 export abstract class AbstractUrlBuilder<T> {
   #url: URL;
 
-  constructor(baseUrl: string, path = '') {
+  constructor(baseUrl: string, path = "") {
     this.#url = new URL(path, baseUrl);
   }
 
-  public abstract clone(path?:string): this;
+  public abstract clone(path?: string): this;
 
   public abstract build(): T;
 

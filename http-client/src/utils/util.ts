@@ -1,5 +1,9 @@
 import { RequestBuilder } from "../request-builder/request-builder";
 
+export function isObject(obj: any): obj is object {
+  return obj === Object(obj);
+}
+
 export function initHeaders(requestInit: RequestInit): Headers {
   if (!requestInit.headers) {
     requestInit.headers = new Headers();

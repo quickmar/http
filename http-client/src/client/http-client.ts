@@ -1,54 +1,34 @@
 import { RequestBuilder } from "../request-builder/request-builder";
+import { BodyData, Init } from "../utils/request-int";
 import { AbstractHttpClient } from "./http-client.abstract";
+import { HttpClientBaseRegistry } from "./registry/http-client-base-registry";
 
 export class HttpClient extends AbstractHttpClient<RequestBuilder> {
-  #baseSearchParam: URLSearchParams;
-  #paths: Map<string, () => RequestBuilder> = new Map();
-  #baseBuilder: RequestBuilder;
-
-  public get url(): string {
-    return this.#baseBuilder.toString();
+  constructor(baseRegistry: HttpClientBaseRegistry<RequestBuilder>) {
+    super(baseRegistry);
   }
 
-  constructor(baseUrl: RequestBuilder | string) {
-    super();
-    this.#baseBuilder = typeof baseUrl === "string" ?  RequestBuilder.create(baseUrl) : baseUrl;
-    this.#baseSearchParam = new URL("", this.url).searchParams;
+  public get(path: string, init?: Init): Promise<Response> {
+    return this.perform(path, "GET", init);
   }
 
-  public hasPath(path: string): boolean {
-    return this.#paths.has(path)
+  public post(path: string, body?: BodyData, init?: Init): Promise<Response> {
+    return this.perform(path, "POST", { body, ...init });
   }
 
-  public registerPath(path: string, builderFn?: (baseBuilder: RequestBuilder) => RequestBuilder): void {
-    const httpClientBuilder = this.#baseBuilder.clone(path);
-
-    this.#baseSearchParam.forEach((value, key) =>
-      httpClientBuilder.addSearchParam(key, value)
-    );
-
-    if (builderFn) {
-      const userBuilder = builderFn(httpClientBuilder);
-      if (httpClientBuilder !== userBuilder) {
-        throw new ReferenceError(
-          "Can not register path. Your builder is not the same as given baseBuilder."
-        );
-      }
-      const copy = userBuilder.clone();
-      this.#paths.set(path, () => copy.clone());
-      return;
-    }
-
-    this.#paths.set(path, () => httpClientBuilder.clone());
+  public put(path: string, body?: BodyData, init?: Init): Promise<Response> {
+    return this.perform(path, "PUT", { body, ...init });
   }
 
-  public getBuilder(path: string): RequestBuilder {
-    const supplierFn = this.#paths.get(path);
-    if (supplierFn) return supplierFn();
-    throw new Error(`Path "${path}" could not be found!`);
+  public patch(): Promise<Response> {
+    throw new Error("Method not implemented.");
   }
 
-  public getRequest(path: string): Request {
-    return this.getBuilder(path).build();
+  public delete(): Promise<Response> {
+    throw new Error("Method not implemented.");
+  }
+
+  public head(): Promise<Response> {
+    throw new Error("Method not implemented.");
   }
 }

@@ -95,7 +95,11 @@ export class RequestBuilder extends AbstractUrlBuilder<Request> {
   }
 
   public clone(path?: string): this {
-    return RequestBuilder.create(super.toString(), path, this.#requestInit) as this;
+    return RequestBuilder.create(
+      super.toString(),
+      path,
+      this.#requestInit
+    ) as this;
   }
 
   public build(): Request {

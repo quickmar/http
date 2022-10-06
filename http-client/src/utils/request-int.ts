@@ -1,2 +1,4 @@
-export interface GetRequestInit extends Omit<RequestInit, "body" | "method"> {
+export type BodyData = RequestInit["body"] | object;
+export interface Init extends Omit<RequestInit, "body" | "method"> {
+    body: BodyData
 }

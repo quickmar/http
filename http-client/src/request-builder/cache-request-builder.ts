@@ -1,4 +1,4 @@
-import { RequestBuilder } from './request-builder';
+import { RequestBuilder } from "./request-builder";
 
 export class CacheRequestBuilder extends RequestBuilder {
   static create(baseUrl: string, path?: string): CacheRequestBuilder {
