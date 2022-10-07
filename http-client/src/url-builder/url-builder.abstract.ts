@@ -28,7 +28,7 @@ export abstract class AbstractUrlBuilder<T> {
     for (const entry of entries) {
       const [variable, value] = entry;
       if (pathname && pathname.includes(variable)) {
-        pathname.replace(variable, value);
+        pathname = pathname.replace(variable, value);
       }
     }
     this.#url = new URL(pathname, this.#url.origin);

@@ -34,10 +34,14 @@ registry.registerPath("test2", (b) =>
 );
 console.dir(registry.getBuilder("test2").toString());
 
-registry.registerPath("test3/{{param}}/{{param2}}");
-console.dir(registry.getBuilder("test3/{{param}}/{{param2}}").toString());
+registry.registerPath("test3/{{param}}/{{param}}");
+console.dir(registry.getBuilder("test3/{{param}}/{{param}}").toString());
+
+registry.registerPath("{{folder}}/test.json");
 
 Http.createJSONClient(registry)
-  .get<string>("test3/{{param=moja}}/{{param2=proba}}")
+  .get<object>("{{folder=src}}/test.json", {
+    headers: [["test", "header"]],
+  })
   .then(console.log)
   .catch(console.log);
