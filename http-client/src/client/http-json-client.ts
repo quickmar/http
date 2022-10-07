@@ -4,35 +4,36 @@ import { AbstractHttpClient } from "./http-client.abstract";
 import { HttpClientBaseRegistry } from "./registry/http-client-base-registry";
 
 export class HttpJSONClient extends AbstractHttpClient<RequestBuilder> {
+    
   constructor(baseRegistry: HttpClientBaseRegistry<RequestBuilder>) {
     super(baseRegistry);
   }
-  
-  public async delete<T, R>(path: string, body?: T, init?: Init) {
+
+  public override async delete<T, R>(path: string, body?: T, init?: Init) {
     const serializedObj = await this.serialize(body);
     return this.perform<R>(path, "DELETE", { body: serializedObj, ...init });
   }
 
-  public async get<T>(path: string, init?: Init) {
+  public override async get<T>(path: string, init?: Init) {
     return this.perform<T>(path, "GET", init)
   }
 
-  public async head<T, R>(path: string, body?: T, init?: Init) {
+  public override async head<T, R>(path: string, body?: T, init?: Init) {
     const serializedObj = await this.serialize(body);
     return this.perform<R>(path, "HEAD", { body: serializedObj, ...init });
   }
 
-  public async patch<T, R>(path: string, body?: T, init?: Init) {
+  public override async patch<T, R>(path: string, body?: T, init?: Init) {
     const serializedObj = await this.serialize(body);
     return this.perform<R>(path, "PATCH", { body: serializedObj, ...init });
   }
 
-  public async post<T, R>(path: string, body?: T, init?: Init) {
+  public override async post<T, R>(path: string, body?: T, init?: Init) {
     const serializedObj = await this.serialize(body);
     return this.perform<R>(path, "POST", { body: serializedObj, ...init });
   }
 
-  public async put<T, R>(path: string, body?: T, init?: Init) {
+  public override async put<T, R>(path: string, body?: T, init?: Init) {
     const serializedObj = await this.serialize(body);
     return this.perform<R>(path, "PUT", { body: serializedObj, ...init });
   }
