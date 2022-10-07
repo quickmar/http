@@ -1,4 +1,5 @@
 import { HttpClient } from "./client/http-client";
+import { HttpJSONClient } from "./client/http-json-client";
 import { HttpClientBaseRegistry } from "./client/registry/http-client-base-registry";
 import { HttpClientRegistry } from "./client/registry/http-client-registry";
 import { RequestBuilder } from "./request-builder/request-builder";
@@ -8,6 +9,12 @@ export class Http {
     baseRegisty: HttpClientBaseRegistry<T>
   ): HttpClient {
     return new HttpClient(baseRegisty);
+  }
+
+  static createJSONClient<T extends RequestBuilder>(
+    baseRegisty: HttpClientBaseRegistry<T>
+  ): HttpJSONClient {
+    return new HttpJSONClient(baseRegisty);
   }
 
   static createHttpRegistry(
@@ -30,5 +37,7 @@ console.dir(registry.getBuilder("test2").toString());
 registry.registerPath("test3/{{param}}/{{param2}}");
 console.dir(registry.getBuilder("test3/{{param}}/{{param2}}").toString());
 
-
-Http.createClient(registry).get("test3/{{param=moja}}/{{param2=proba}}").then(console.log).catch(console.log);
+Http.createJSONClient(registry)
+  .get<string>("test3/{{param=moja}}/{{param2=proba}}")
+  .then(console.log)
+  .catch(console.log);
