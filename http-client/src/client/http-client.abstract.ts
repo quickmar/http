@@ -1,6 +1,6 @@
 import { RequestBuilder } from "../request-builder/request-builder";
-import { Init } from "../utils/types";
-import { intRequestBuilder } from "../utils/util";
+import { Init, RequestInitParams } from "../utils/types";
+import { initSearchParams, intRequestBuilder } from "../utils/util";
 import { DefaultTransformer } from "./path-variable/default-transformer";
 import { HttpClientBaseRegistry } from "./registry/http-client-base-registry";
 
@@ -52,16 +52,18 @@ export abstract class AbstractHttpClient<T extends RequestBuilder> {
   protected async perform(
     path: string,
     method: string,
-    init?: RequestInit
+    init?: RequestInitParams
   ): Promise<Response> {
     const pathAndEntries = this.#pathsTransformer.transform(path);
     const builder = this.#registry.getBuilder(pathAndEntries.path);
 
     builder.updateURLVariables(...pathAndEntries.entries);
     builder.addMethod(method);
-    
+
     if (init) {
-      intRequestBuilder(builder, init);
+      const { searchParams, ...rest } = init;
+      initSearchParams(builder, searchParams);
+      intRequestBuilder(builder, rest);
     }
     return builder.fetch();
   }

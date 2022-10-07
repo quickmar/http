@@ -1,7 +1,14 @@
 import { RequestBuilder } from "../request-builder/request-builder";
+import { RequestInitParams } from "./types";
 
-export function isObject(obj: any): obj is object {
-  return obj === Object(obj);
+export function initSearchParams(
+  builder: RequestBuilder,
+  params: RequestInitParams["searchParams"]
+): void {
+  if (!params) return;
+  for (const [name, value] of Object.entries(params)) {
+    builder.addSearchParam(name, value);
+  }
 }
 
 export function initHeaders(requestInit: RequestInit): Headers {

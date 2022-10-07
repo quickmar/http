@@ -1,6 +1,11 @@
-export interface Init extends Omit<RequestInit, "body" | "method"> {}
+export interface RequestInitParams extends RequestInit {
+  searchParams?: {[name: string]: string}
+}
 
-export interface JSONInit extends Omit<RequestInit, "body"> {
+export interface Init extends Omit<RequestInitParams, "body" | "method"> {
+}
+
+export interface JSONInit extends Omit<RequestInitParams, "body"> {
   body?: string;
 }
 
