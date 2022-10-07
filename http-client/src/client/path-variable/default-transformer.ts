@@ -26,7 +26,7 @@ export class DefaultTransformer {
 
         pathAndEntries.path = pathAndEntries.path.replace(
           path,
-          `{{${variable}}}`
+          `${this.open}${variable}${this.close}`
         );
 
         pathAndEntries.entries.push([

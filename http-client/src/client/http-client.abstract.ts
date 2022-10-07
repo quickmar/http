@@ -57,11 +57,9 @@ export abstract class AbstractHttpClient<T extends RequestBuilder> {
     const pathAndEntries = this.#pathsTransformer.transform(path);
     const builder = this.#registry.getBuilder(pathAndEntries.path);
 
-    pathAndEntries.entries.forEach(([variable, value]) => {
-      builder.updateURLVariable(variable, value);
-    });
-
+    builder.updateURLVariables(...pathAndEntries.entries);
     builder.addMethod(method);
+    
     if (init) {
       intRequestBuilder(builder, init);
     }

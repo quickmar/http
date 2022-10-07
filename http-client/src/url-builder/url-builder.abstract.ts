@@ -23,9 +23,15 @@ export abstract class AbstractUrlBuilder<T> {
     return this;
   }
 
-  updateURLVariable(variable: string, value: string): this {
-    if (!this.#url.pathname && !this.#url.pathname.includes(variable)) return this;
-    this.#url = new URL(this.#url.pathname.replace(variable, value), this.#url.origin);
+  updateURLVariables(...entries: [string, string][]): this {
+    let pathname = this.#url.pathname;
+    for (const entry of entries) {
+      const [variable, value] = entry;
+      if (pathname && pathname.includes(variable)) {
+        pathname.replace(variable, value);
+      }
+    }
+    this.#url = new URL(pathname, this.#url.origin);
     return this;
   }
 
