@@ -1,5 +1,5 @@
 import { RequestBuilder } from "../request-builder/request-builder";
-import { BodyData, Init } from "../utils/types";
+import { Init } from "../utils/types";
 import { intRequestBuilder } from "../utils/util";
 import { DefaultTransformer } from "./path-variable/default-transformer";
 import { HttpClientBaseRegistry } from "./registry/http-client-base-registry";
@@ -19,7 +19,7 @@ export abstract class AbstractHttpClient<T extends RequestBuilder> {
 
   public abstract delete(
     path: string,
-    body?: BodyData,
+    body?: BodyInit,
     init?: Init
   ): Promise<Response>;
 
@@ -27,32 +27,32 @@ export abstract class AbstractHttpClient<T extends RequestBuilder> {
 
   public abstract head(
     path: string,
-    body?: BodyData,
+    body?: BodyInit,
     init?: Init
   ): Promise<Response>;
 
   public abstract patch(
     path: string,
-    body?: BodyData,
+    body?: BodyInit,
     init?: Init
   ): Promise<Response>;
 
   public abstract post(
     path: string,
-    body: BodyData,
+    body: BodyInit,
     init?: Init
   ): Promise<Response>;
 
   public abstract put(
     path: string,
-    body?: BodyData,
+    body?: BodyInit,
     init?: Init
   ): Promise<Response>;
 
   protected async perform(
     path: string,
     method: string,
-    init?: Init
+    init?: RequestInit
   ): Promise<Response> {
     const pathAndEntries = this.#pathsTransformer.transform(path);
     const builder = this.#registry.getBuilder(pathAndEntries.path);
