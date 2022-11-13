@@ -50,12 +50,19 @@ describe("URL builder", () => {
 
   it("should replace path", () => {
     // given
-      const newPathVariable = urlBuilder.addPath("newPath").addPath("variable");
+    const newPathVariable = urlBuilder.addPath("newPath").addPath("variable");
 
     // when
-    const changedVariable = newPathVariable.clone().updateURLVariables(["variable", "changedVariable"])
+    const changedVariable = newPathVariable
+      .clone()
+      .updateURLVariables(["variable", "changedVariable"]);
+      
     // then
-    expect(urlBuilder.build().pathname).not.toBe(changedVariable.build().pathname);
-    expect(changedVariable.build().pathname).not.toBe("/newPath/changedVariable");
+    expect(urlBuilder.build().pathname).not.toBe(
+      changedVariable.build().pathname
+    );
+    expect(changedVariable.build().pathname).not.toBe(
+      "/newPath/changedVariable"
+    );
   });
 });
