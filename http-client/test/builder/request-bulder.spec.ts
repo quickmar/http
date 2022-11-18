@@ -1,8 +1,8 @@
-import { describe, expect, it, beforeEach, vi, Mock } from "vitest";
+import { describe, expect, it, beforeEach, vi, Mock, afterEach } from "vitest";
 
 import { RequestBuilder } from "../../src/request-builder/request-builder";
 
-describe("URL builder", () => {
+describe("Request builder", () => {
   let requestBuilder: RequestBuilder;
   let fetchMock: Mock<Parameters<Window["fetch"]>, ReturnType<Window["fetch"]>>;
 
@@ -16,6 +16,10 @@ describe("URL builder", () => {
     fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
   });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  })
 
   it("should create", () => {
     expect(requestBuilder).toBeTruthy();
@@ -48,39 +52,8 @@ describe("URL builder", () => {
     // given
     const request = requestBuilder.build();
 
-    const {
-      body,
-      bodyUsed,
-      cache,
-      credentials,
-      destination,
-      headers,
-      integrity,
-      keepalive,
-      method,
-      mode,
-      redirect,
-      referrer,
-      referrerPolicy,
-      signal,
-      url,
-    } = request;
-
-    expect(body).toBeNull();
-    expect(bodyUsed).toBe(false);
-    expect(cache).toBeUndefined();
-    expect(credentials).toBeUndefined();
-    expect(destination).toBeUndefined();
-    expect(headers).to.deep.equal(new Headers());
-    expect(integrity).toBeUndefined();
-    expect(keepalive).toBeUndefined();
-    expect(method).toBe("GET");
-    expect(mode).toBeUndefined();
-    expect(redirect).toBe("follow");
-    expect(referrer).toBeUndefined();
-    expect(referrerPolicy).toBeUndefined();
-    expect(signal).toBeNull();
-    expect(url).toBe("https://test.ts/");
+    // then
+    expect(request).to.deep.equal(new Request("https://test.ts"));
   });
 
   it("should add Request Init", () => {
@@ -95,7 +68,7 @@ describe("URL builder", () => {
       method: "POST",
       mode: "no-cors",
       redirect: "manual",
-      referrer: "test referrer",
+      referrer: "https://test.ts/referrer",
       referrerPolicy: "unsafe-url",
       signal: new AbortController().signal,
       window: null,
@@ -107,21 +80,18 @@ describe("URL builder", () => {
       requestInit
     );
 
+    // then
     expect(builder.build()).to.deep.equal(
       new Request("https://test.ts", requestInit)
     );
   });
 
   it("should fetch", () => {
-    // given
-    const mockFetch: Mock<Parameters<Window["fetch"]>, ReturnType<Window["fetch"]>> = vi.fn();
-    vi.stubGlobal("fetch", mockFetch);
-
     //when
     requestBuilder.fetch();
 
     //then
-    expect(mockFetch).toBeCalled();
-    vi.clearAllMocks();
+    expect(fetchMock.mock.lastCall?.[0]).to.deep.equal(new Request("https://test.ts"));
+    expect(fetchMock.mock.lastCall?.[1]).toBeUndefined();
   });
 });
