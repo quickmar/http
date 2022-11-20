@@ -13,8 +13,6 @@ describe("Request builder", () => {
 
   beforeEach(() => {
     requestBuilder = RequestBuilder.create("https://test.ts");
-    fetchMock = vi.fn();
-    vi.stubGlobal("fetch", fetchMock);
   });
 
   afterEach(() => {

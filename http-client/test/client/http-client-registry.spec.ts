@@ -1,9 +1,9 @@
-import { describe, expect, it, beforeEach} from "vitest";
+import { describe, expect, it, beforeEach } from "vitest";
 
 import { HttpClientRegistry } from "../../src/client/registry/http-client-registry";
 import { RequestBuilder } from "../../src/request-builder/request-builder";
 
-describe("Request builder", () => {
+describe("Http client registry", () => {
   let registry: HttpClientRegistry;
 
   beforeEach(() => {
@@ -69,5 +69,4 @@ describe("Request builder", () => {
     // then
     expect(registry.getRequest("newPath")).to.deep.equal(new Request("https://test.ts/newPath"));
   })
-
 });
