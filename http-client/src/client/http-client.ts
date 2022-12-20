@@ -28,7 +28,7 @@ export class HttpClient extends AbstractHttpClient<RequestBuilder> {
     return this.perform(path, "DELETE", { body, ...init });
   }
 
-  public head(path: string, body?: BodyInit, init?: Init): Promise<Response> {
-    return this.perform(path, "HEAD", { body, ...init });
+  public head(path: string, init?: Init): Promise<Response> {
+    return this.perform(path, "HEAD", { ...init });
   }
 }

@@ -27,7 +27,6 @@ export abstract class AbstractHttpClient<T extends RequestBuilder> {
 
   public abstract head(
     path: string,
-    body?: BodyInit,
     init?: Init
   ): Promise<Response>;
 

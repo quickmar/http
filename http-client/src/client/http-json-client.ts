@@ -18,9 +18,8 @@ export class HttpJSONClient extends AbstractHttpClient<RequestBuilder> {
     return this.perform<T>(path, "GET", init)
   }
 
-  public override async head<T, R>(path: string, body?: T, init?: Init) {
-    const serializedObj = await this.serialize(body);
-    return this.perform<R>(path, "HEAD", { body: serializedObj, ...init });
+  public override async head<T, R>(path: string, init?: Init) {
+    return this.perform<R>(path, "HEAD", { ...init });
   }
 
   public override async patch<T, R>(path: string, body?: T, init?: Init) {
